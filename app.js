@@ -20,9 +20,21 @@
   }
 
   function errorText(error) {
+    const code = typeof error?.code === 'string' ? error.code : '';
+    const suffix = /^[A-Z0-9]{3,12}$/.test(code) ? `（錯誤代碼：${code}）` : '';
     if (error?.code === '42501') return '目前沒有操作權限，請聯絡管理員確認存取設定。';
     if (error?.code === '23514' || error?.code === '23502') return '資料不符合欄位規則，請檢查填寫內容。';
-    return '服務暫時無法連線，請檢查網路或稍後再試。';
+    if (['PGRST205', '42P01'].includes(code)) return `找不到報修資料表，請聯絡管理員確認資料庫已完成建表。${suffix}`;
+    if (['PGRST204', '42703'].includes(code)) return `報修資料表欄位與網頁不一致，請聯絡管理員確認資料表結構。${suffix}`;
+    if (code === 'PGRST106') return `報修資料表所在的 schema 未開放 API 存取，請聯絡管理員。${suffix}`;
+    if (error?.httpStatus === 401 || ['PGRST301', 'PGRST302', 'PGRST303'].includes(code)) {
+      return `專案金鑰或驗證設定未通過，請聯絡管理員確認專案網址與公開金鑰。${suffix}`;
+    }
+    if (error?.httpStatus === 403) return `目前沒有讀寫權限，請聯絡管理員確認存取設定。${suffix}`;
+    if (error?.httpStatus === 429) return '請求次數過多，請稍候再試。';
+    if (error?.httpStatus >= 500) return `資料服務暫時異常，請稍後再試。${suffix}`;
+    if (code || error?.httpStatus >= 400) return `資料服務拒絕此請求，請聯絡管理員。${suffix}`;
+    return '無法連線到資料服務，請檢查網路；若持續發生，請管理員確認專案網址及服務是否正常運作。';
   }
 
   // 所有資料都透過 textContent 顯示，避免報修文字被當成 HTML 執行。
@@ -66,12 +78,12 @@
     list.setAttribute('aria-busy', 'true');
     message(listMessage, '正在載入報修清單…');
     try {
-      const { data, error } = await client.from('repair_requests')
+      const { data, error, status } = await client.from('repair_requests')
         .select('id,created_at,reporter_name,location,category,description,urgency,status')
         .order('created_at', { ascending: false })
         .order('id', { ascending: false })
         .limit(20);
-      if (error) throw error;
+      if (error) throw { ...error, httpStatus: status };
       renderRequests(data ?? []);
       message(listMessage, data?.length ? '' : '目前還沒有報修紀錄，歡迎新增第一筆。');
     } catch (error) {
@@ -108,8 +120,8 @@
     submitButton.textContent = '正在送出…';
     message(formMessage, '正在登記報修，請稍候…');
     try {
-      const { error } = await client.from('repair_requests').insert(payload);
-      if (error) throw error;
+      const { error, status } = await client.from('repair_requests').insert(payload);
+      if (error) throw { ...error, httpStatus: status };
       form.reset();
       message(formMessage, '報修已成功送出！目前狀態為「待處理」。', 'success');
       await loadRequests();

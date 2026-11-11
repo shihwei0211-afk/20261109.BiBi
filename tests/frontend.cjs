@@ -35,6 +35,7 @@ const { chromium } = require('playwright');
       }));
     }
     let failRead = false;
+    let readFailure = { status: 503, body: { message: 'Unavailable' } };
     let failInsert = false;
     let posts = [];
     const records = Array.from({ length: 20 }, (_, i) => ({
@@ -55,8 +56,8 @@ const { chromium } = require('playwright');
         const url = new URL(req.url());
         assert.equal(url.searchParams.get('limit'), '20');
         assert.equal(url.searchParams.get('order'), 'created_at.desc,id.desc');
-        await route.fulfill({ status: failRead ? 503 : 200, contentType: 'application/json',
-          body: failRead ? JSON.stringify({ message: 'Unavailable' }) : JSON.stringify(records) });
+        await route.fulfill({ status: failRead ? readFailure.status : 200, contentType: 'application/json',
+          body: failRead ? JSON.stringify(readFailure.body) : JSON.stringify(records) });
       }
     });
     await page.goto(`http://127.0.0.1:${server.address().port}/`);
@@ -96,6 +97,18 @@ const { chromium } = require('playwright');
     await page.locator('#refresh-button').click();
     await page.waitForFunction(() => document.querySelector('#list-message').classList.contains('error'));
     assert.equal(await page.locator('.request-card').count(), 20, '讀取失敗保留舊清單');
+    for (const [status, body, expected] of [
+      [404, { code: 'PGRST205', message: 'Missing table' }, '找不到報修資料表'],
+      [400, { code: '42703', message: 'Missing column' }, '欄位與網頁不一致'],
+      [401, { message: 'Invalid API key' }, '專案金鑰或驗證設定未通過'],
+      [403, { code: '42501', message: 'Permission denied' }, '目前沒有操作權限'],
+      [429, { message: 'Rate limited' }, '請求次數過多'],
+      [503, { message: 'Unavailable' }, '資料服務暫時異常'],
+    ]) {
+      readFailure = { status, body };
+      await page.locator('#refresh-button').click();
+      await page.waitForFunction(text => document.querySelector('#list-message').textContent.includes(text), expected);
+    }
     failRead = false;
     failInsert = false;
     records.length = 0;
