@@ -48,3 +48,5 @@ GitHub 儲存庫 Settings → Pages，選擇 Deploy from a branch、`main`、`/ 
 4. 在某個篩選下點「重新整理」，確認篩選仍保留。切換篩選本身不會重新讀取資料庫。
 
 [報修系統操作說明（Word，含實際網頁截圖）](文件/報修系統操作說明.docx)
+
+[報修登記系統提案（PowerPoint，6 頁）](文件/報修登記系統提案.pptx)
