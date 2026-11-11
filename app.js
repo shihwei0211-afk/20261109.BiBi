@@ -8,10 +8,15 @@
   const formMessage = document.querySelector('#form-message');
   const listMessage = document.querySelector('#list-message');
   const list = document.querySelector('#request-list');
+  const filterButtons = document.querySelectorAll('#urgency-filters button');
+  const filterSummary = document.querySelector('#filter-summary');
   const categories = ['設備', '網路', '環境', '其他'];
   const urgencies = ['低', '中', '高'];
   let client;
   let submitting = false;
+  let loadedRequests = [];
+  let hasLoadedRequests = false;
+  let selectedUrgency = '全部';
 
   function message(element, text, kind = '') {
     element.textContent = text;
@@ -57,7 +62,7 @@
       heading.append(element('h3', '', request.location), element('span', `badge ${statusClass}`, request.status));
       const meta = element('div', 'card-meta');
       meta.append(element('span', '', `報修人：${request.reporter_name}`), element('span', 'badge', request.category));
-      meta.append(element('span', request.urgency === '高' ? 'urgency-high' : '', `緊急程度：${request.urgency}`));
+      meta.append(element('span', request.urgency === '高' ? 'badge urgency-high' : 'badge', `緊急程度：${request.urgency}`));
       const time = element('time');
       const date = new Date(request.created_at);
       if (Number.isNaN(date.getTime())) {
@@ -73,6 +78,24 @@
     list.replaceChildren(fragment);
   }
 
+  // 僅篩選已載入的最新 20 筆；切換按鈕不送出資料庫請求。
+  function applyUrgencyFilter() {
+    for (const button of filterButtons) {
+      button.setAttribute('aria-pressed', String(button.dataset.urgency === selectedUrgency));
+    }
+    if (!hasLoadedRequests) return;
+    const visible = selectedUrgency === '全部'
+      ? loadedRequests
+      : loadedRequests.filter(request => request.urgency === selectedUrgency);
+    renderRequests(visible);
+    filterSummary.hidden = false;
+    filterSummary.textContent = visible.length
+      ? `顯示 ${visible.length} 筆${selectedUrgency === '全部' ? '' : `「${selectedUrgency}」緊急程度`}報修（已載入 ${loadedRequests.length} 筆）。`
+      : loadedRequests.length === 0
+        ? '目前還沒有報修紀錄，歡迎新增第一筆。'
+        : `已載入的清單中沒有「${selectedUrgency}」緊急程度的報修。`;
+  }
+
   async function loadRequests() {
     refreshButton.disabled = true;
     list.setAttribute('aria-busy', 'true');
@@ -84,10 +107,12 @@
         .order('id', { ascending: false })
         .limit(20);
       if (error) throw { ...error, httpStatus: status };
-      renderRequests(data ?? []);
-      message(listMessage, data?.length ? '' : '目前還沒有報修紀錄，歡迎新增第一筆。');
+      loadedRequests = data ?? [];
+      hasLoadedRequests = true;
+      applyUrgencyFilter();
+      message(listMessage, '');
     } catch (error) {
-      message(listMessage, `清單讀取失敗。${errorText(error)}${list.children.length ? '下方保留上次載入的資料。' : ''}`, 'error');
+      message(listMessage, `清單讀取失敗。${errorText(error)}${hasLoadedRequests ? '保留上次載入的資料，仍可切換篩選。' : ''}`, 'error');
     } finally {
       list.setAttribute('aria-busy', 'false');
       refreshButton.disabled = false;
@@ -139,6 +164,12 @@
     if (typeof event.target.setCustomValidity === 'function') event.target.setCustomValidity('');
   });
   refreshButton.addEventListener('click', loadRequests);
+  for (const button of filterButtons) {
+    button.addEventListener('click', () => {
+      selectedUrgency = button.dataset.urgency;
+      applyUrgencyFilter();
+    });
+  }
 
   try {
     const config = window.REPAIR_CONFIG;

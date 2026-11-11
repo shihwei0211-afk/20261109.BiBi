@@ -42,6 +42,10 @@ button span { margin-left: 16px; }
 .message.success { background: #e4f3e9; color: #155235; }
 .message.error { background: #fff0ed; color: #9b2e22; }
 .requests-section { margin-top: 42px; }
+.urgency-filters { display: flex; gap: 8px; margin-bottom: 16px; }
+.urgency-filters button { flex: 1; max-width: 100px; min-height: 48px; padding: 10px 14px; background: white; color: var(--green); border-color: #becdc3; }
+.urgency-filters button:hover { background: #e6ede5; }
+.urgency-filters button[aria-pressed="true"] { color: white; background: var(--green); border-color: var(--green); box-shadow: 0 0 0 2px var(--paper), 0 0 0 3px var(--green); }
 .request-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 14px; }
 .request-card { background: white; padding: 22px 24px; border: 1px solid var(--line); border-radius: 12px; min-width: 0; }
 .card-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
@@ -52,7 +56,7 @@ button span { margin-left: 16px; }
 .badge { padding: 3px 10px; background: #eef1ee; border-radius: 20px; font-size: 12px; white-space: nowrap; }
 .badge.progress { color: #875515; background: #fff2d9; }
 .badge.done { color: #155235; background: #e4f3e9; }
-.urgency-high { color: #a12b24; font-weight: 650; }
+.urgency-high { color: #a12b24; background: #fff0ed; font-weight: 650; }
 .site-footer { max-width: 920px; margin: auto; padding: 24px 28px 32px; border-top: 1px solid var(--line); color: var(--muted); font-size: 12px; }
 .site-footer span { margin: 0 8px; }
 @media (max-width: 600px) {

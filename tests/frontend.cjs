@@ -113,7 +113,7 @@ const { chromium } = require('playwright');
     failInsert = false;
     records.length = 0;
     await page.locator('#refresh-button').click();
-    await page.waitForFunction(() => document.querySelector('#list-message').textContent.includes('目前還沒有'));
+    await page.waitForFunction(() => document.querySelector('#filter-summary').textContent.includes('目前還沒有'));
     assert.equal(await page.locator('.request-card').count(), 0);
     // 新增成功但清單更新失敗時，仍清楚保留新增成功訊息。
     failRead = true;
