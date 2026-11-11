@@ -8,3 +8,6 @@ temp/
 .temp/
 暫存/
 暫存資料夾/
+
+# 前端測試相依套件
+node_modules/
