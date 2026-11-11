@@ -6,10 +6,13 @@
   <meta name="theme-color" content="#176451">
   <meta name="description" content="新增報修需求，查看最近的處理進度。">
   <title>報修登記</title>
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="apple-touch-icon" href="./assets/icon-180.png">
   <link rel="stylesheet" href="./style.css">
   <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.8/dist/umd/supabase.js"></script>
   <script defer src="./config.js"></script>
   <script defer src="./app.js"></script>
+  <script defer src="./pwa.js"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">跳至主要內容</a>
@@ -22,6 +25,8 @@
       <h1 id="page-title">需要協助嗎？<br>把問題交給我們。</h1>
       <p>填寫報修需求，並在下方查看最新的處理進度。</p>
       <p class="demo-note">示範系統・清單公開，請僅填寫虛構姓名與地點。</p>
+      <p><button id="install-button" type="button" hidden>安裝報修登記</button></p>
+      <p id="connection-notice" class="message error" role="status" hidden>目前離線，讀取清單與送出報修需要網路。系統不會離線儲存或自動重送。</p>
     </section>
 
     <section class="panel" aria-labelledby="form-title">
