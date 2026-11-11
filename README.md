@@ -50,3 +50,13 @@ GitHub 儲存庫 Settings → Pages，選擇 Deploy from a branch、`main`、`/ 
 [報修系統操作說明（Word，含實際網頁截圖）](文件/報修系統操作說明.docx)
 
 [報修登記系統提案（PowerPoint，6 頁）](文件/報修登記系統提案.pptx)
+
+## PWA 安裝與離線使用
+
+網站新增 manifest、應用程式圖示與 Service Worker。以 HTTPS（本機可用 localhost）開啟網站，支援的 Chrome／Edge 可透過網址列或頁面的「安裝報修登記」安裝；頁面按鈕僅在瀏覽器提供安裝提示時顯示。iPhone／iPad 可在 Safari 分享選單選「加入主畫面」。各瀏覽器的安裝選項可能不同。
+
+首次連線開啟並完成 Service Worker 啟用後，無網路再次開啟時顯示離線說明。新增報修與讀取清單仍需連線；不快取報修資料、不離線儲存表單，也不排程或自動重送。PWA 不會修復 Supabase 連線或權限設定。
+
+所有路徑皆相對於專案目錄，適用 GitHub Pages 子路徑。Service Worker 的快取只包含離線說明、樣式與圖示；更新離線資源時須遞增 `sw.js` 的快取版本，舊版本於新 Worker 啟用後清理。
+
+PWA 驗證：`CHROMIUM_PATH=/usr/bin/chromium node tests/pwa.cjs`（需 Playwright 與 Chromium）；涵蓋子路徑、圖示、離線與恢復連線、快取範圍。
