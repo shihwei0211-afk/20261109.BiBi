@@ -47,7 +47,7 @@ GitHub 儲存庫 Settings → Pages，選擇 Deploy from a branch、`main`、`/ 
 3. 點「全部」恢復所有已載入項目；確認「高」的緊急程度標籤呈紅色。
 4. 在某個篩選下點「重新整理」，確認篩選仍保留。切換篩選本身不會重新讀取資料庫。
 
-[2027 四國自由行手冊（網頁）](文件/2027自由行旅遊手冊.html)
+[2027 四國自由行手冊（網頁）](trip-2027/index.html)：GitHub Pages 啟用後的網址為 <https://shihwei0211-afk.github.io/20261109.BiBi/trip-2027/>
 
 [報修登記系統提案（PowerPoint，6 頁）](文件/報修登記系統提案.pptx)
 
