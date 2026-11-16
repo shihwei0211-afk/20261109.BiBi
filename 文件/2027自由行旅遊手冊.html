@@ -1,0 +1,585 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2027 自由行手冊</title>
+<meta name="description" content="2027 年馬來西亞、泰國、日本、韓國四趟自由行：每日行程、住宿、兩人預算、訂位時程與出發前檢查清單。">
+<style>
+:root {
+  --bg: #f7f5f0;
+  --surface: #ffffff;
+  --surface-2: #f0ede5;
+  --text: #1f2328;
+  --muted: #5b6168;
+  --border: #ddd8cc;
+  --accent: #1d6b5a;
+  --accent-soft: #e2f0eb;
+  --th: #c2410c; --th-soft: #fdebdf;
+  --jp: #be185d; --jp-soft: #fbe5ef;
+  --my: #1d4ed8; --my-soft: #e2e9fb;
+  --kr: #7c3aed; --kr-soft: #eee6fd;
+  --warn: #92400e; --warn-soft: #fdf3dc;
+  --radius: 12px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #15171a; --surface: #1e2125; --surface-2: #262a2f; --text: #e8e6e1; --muted: #a3a8ae; --border: #353a40;
+    --accent: #5fc4a8; --accent-soft: #1d3530;
+    --th: #fb923c; --th-soft: #3a2518; --jp: #f472b6; --jp-soft: #3a1c2b;
+    --my: #7aa2f7; --my-soft: #1c2640; --kr: #b197fc; --kr-soft: #2a2140;
+    --warn: #fbbf24; --warn-soft: #3a2f14;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #15171a; --surface: #1e2125; --surface-2: #262a2f; --text: #e8e6e1; --muted: #a3a8ae; --border: #353a40;
+  --accent: #5fc4a8; --accent-soft: #1d3530;
+  --th: #fb923c; --th-soft: #3a2518; --jp: #f472b6; --jp-soft: #3a1c2b;
+  --my: #7aa2f7; --my-soft: #1c2640; --kr: #b197fc; --kr-soft: #2a2140;
+  --warn: #fbbf24; --warn-soft: #3a2f14;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0; background: var(--bg); color: var(--text);
+  font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif;
+  line-height: 1.7; font-size: 16px;
+}
+.wrap { max-width: 1040px; margin: 0 auto; padding: 0 16px; }
+header.hero { padding: 48px 0 28px; border-bottom: 1px solid var(--border); }
+.hero .eyebrow { color: var(--accent); font-weight: 700; letter-spacing: .08em; font-size: 14px; }
+.hero h1 { font-size: clamp(28px, 5vw, 44px); line-height: 1.25; margin: 6px 0 10px; }
+.hero p { color: var(--muted); margin: 0; max-width: 46em; }
+.facts { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+.facts span { background: var(--surface); border: 1px solid var(--border); border-radius: 999px; padding: 4px 12px; font-size: 14px; }
+
+nav.toc {
+  position: sticky; top: 0; z-index: 10; background: color-mix(in srgb, var(--bg) 92%, transparent);
+  backdrop-filter: blur(6px); border-bottom: 1px solid var(--border);
+}
+nav.toc .wrap { display: flex; gap: 6px; overflow-x: auto; padding-top: 10px; padding-bottom: 10px; scrollbar-width: none; }
+nav.toc a {
+  flex: none; text-decoration: none; color: var(--text); font-size: 14px; padding: 6px 12px;
+  border-radius: 999px; border: 1px solid var(--border); background: var(--surface);
+}
+nav.toc a:hover { border-color: var(--accent); color: var(--accent); }
+
+section { padding: 40px 0 8px; scroll-margin-top: 56px; }
+h2 { font-size: 26px; margin: 0 0 6px; }
+h3 { font-size: 18px; margin: 24px 0 8px; }
+.lead { color: var(--muted); margin: 0 0 18px; }
+
+.overview { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+.ov {
+  display: block; text-decoration: none; color: inherit; background: var(--surface);
+  border: 1px solid var(--border); border-top: 4px solid var(--c); border-radius: var(--radius); padding: 16px;
+}
+.ov:hover { box-shadow: 0 2px 10px rgba(0,0,0,.08); }
+.ov .num { font-size: 13px; color: var(--muted); }
+.ov .name { font-size: 20px; font-weight: 700; margin: 2px 0; }
+.ov .when { color: var(--c); font-weight: 700; font-size: 15px; }
+.ov .meta { color: var(--muted); font-size: 14px; margin-top: 6px; }
+
+.trip-head {
+  background: var(--soft); border: 1px solid var(--border); border-left: 6px solid var(--c);
+  border-radius: var(--radius); padding: 18px 20px; margin-bottom: 16px;
+}
+.trip-head .tag { color: var(--c); font-weight: 700; font-size: 14px; }
+.trip-head h2 { margin: 2px 0 8px; }
+.kv { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 6px 18px; font-size: 15px; }
+.kv b { color: var(--c); font-weight: 700; margin-right: 6px; }
+
+.days { display: grid; gap: 10px; }
+.day {
+  display: grid; grid-template-columns: 64px 1fr; background: var(--surface);
+  border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden;
+}
+.day .d {
+  background: var(--soft); color: var(--c); font-weight: 800; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; font-size: 20px; line-height: 1.1;
+}
+.day .d small { font-size: 11px; font-weight: 600; }
+.day .slots { display: grid; grid-template-columns: repeat(3, 1fr); }
+.slot { padding: 12px 14px; border-left: 1px solid var(--border); }
+.slot:first-child { border-left: 0; }
+.slot .t { font-size: 12px; color: var(--muted); font-weight: 700; letter-spacing: .05em; }
+
+.note {
+  background: var(--warn-soft); border-radius: var(--radius); padding: 12px 16px; margin: 14px 0 0;
+  border: 1px solid color-mix(in srgb, var(--warn) 30%, transparent);
+}
+.note b { color: var(--warn); }
+.note ul { margin: 4px 0 0; padding-left: 20px; }
+
+.table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); }
+table { width: 100%; border-collapse: collapse; font-size: 15px; min-width: 560px; }
+th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); vertical-align: top; }
+th { background: var(--surface-2); font-size: 14px; color: var(--muted); }
+tr:last-child td { border-bottom: 0; }
+td.num, th.num { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+tr.total td { font-weight: 800; background: var(--accent-soft); }
+.flag { white-space: nowrap; }
+
+.timeline { list-style: none; margin: 0; padding: 0; border-left: 3px solid var(--accent); }
+.timeline li { position: relative; padding: 0 0 18px 20px; }
+.timeline li::before {
+  content: ""; position: absolute; left: -9px; top: 6px; width: 15px; height: 15px; border-radius: 50%;
+  background: var(--surface); border: 3px solid var(--accent);
+}
+.timeline li.now::before { background: var(--accent); }
+.timeline .when { font-weight: 800; color: var(--accent); }
+
+.checklists { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 18px; }
+.card h3 { margin-top: 0; }
+.card label { display: flex; gap: 10px; align-items: flex-start; padding: 5px 0; cursor: pointer; }
+.card input { margin-top: 6px; width: 18px; height: 18px; accent-color: var(--accent); flex: none; }
+.card input:checked + span { color: var(--muted); text-decoration: line-through; }
+.progress { font-size: 14px; color: var(--muted); margin-top: 6px; }
+
+footer { margin-top: 40px; padding: 24px 0 48px; border-top: 1px solid var(--border); color: var(--muted); font-size: 14px; }
+.btn {
+  font: inherit; font-size: 14px; border: 1px solid var(--border); background: var(--surface); color: var(--text);
+  border-radius: 999px; padding: 6px 14px; cursor: pointer;
+}
+.btn:hover { border-color: var(--accent); color: var(--accent); }
+
+.th { --c: var(--th); --soft: var(--th-soft); }
+.jp { --c: var(--jp); --soft: var(--jp-soft); }
+.my { --c: var(--my); --soft: var(--my-soft); }
+.kr { --c: var(--kr); --soft: var(--kr-soft); }
+
+@media (max-width: 720px) {
+  .day { grid-template-columns: 52px 1fr; }
+  .day .slots { grid-template-columns: 1fr; }
+  .slot { border-left: 0; border-top: 1px solid var(--border); }
+  .slot:first-child { border-top: 0; }
+}
+@media print {
+  nav.toc, .btn { display: none; }
+  body { background: #fff; font-size: 12px; }
+  section { break-inside: auto; padding-top: 16px; }
+  .day, .trip-head, .card { break-inside: avoid; }
+  .trip-section { break-before: page; }
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">2027 TRAVEL HANDBOOK</div>
+    <h1>2027 四國自由行手冊</h1>
+    <p>一年分四趟、配合台灣連假，在每個國家最適合的季節出發。這份手冊有每日行程、住宿、兩人預算、訂位時程，以及出發前檢查清單。</p>
+    <div class="facts">
+      <span>👥 2 位成人</span>
+      <span>💰 中等預算</span>
+      <span>✈️ 從桃園出發</span>
+      <span>🗓️ 4 趟，共 25 天</span>
+    </div>
+  </div>
+</header>
+
+<nav class="toc" aria-label="目錄">
+  <div class="wrap">
+    <a href="#overview">總覽</a>
+    <a href="#thailand">🇹🇭 泰國</a>
+    <a href="#japan">🇯🇵 日本</a>
+    <a href="#malaysia">🇲🇾 馬來西亞</a>
+    <a href="#korea">🇰🇷 韓國</a>
+    <a href="#budget">預算</a>
+    <a href="#booking">訂位時程</a>
+    <a href="#checklist">出發前清單</a>
+  </div>
+</nav>
+
+<main class="wrap">
+
+<section id="overview">
+  <h2>全年總覽</h2>
+  <p class="lead">確切的連假日期請以人事行政總處公告的 2027 年行事曆為準。</p>
+  <div class="overview">
+    <a class="ov th" href="#thailand">
+      <div class="num">第 1 趟</div><div class="name">🇹🇭 曼谷＋清邁</div>
+      <div class="when">2 月・春節連假</div>
+      <div class="meta">6 天 5 夜・請假 0–1 天<br>涼季又是乾季</div>
+    </a>
+    <a class="ov jp" href="#japan">
+      <div class="num">第 2 趟</div><div class="name">🇯🇵 京都＋大阪</div>
+      <div class="when">3 月底–4 月初・清明前後</div>
+      <div class="meta">7 天 6 夜・請假 2–3 天<br>櫻花季</div>
+    </a>
+    <a class="ov my" href="#malaysia">
+      <div class="num">第 3 趟</div><div class="name">🇲🇾 吉隆坡＋怡保＋檳城</div>
+      <div class="when">7 月・暑假</div>
+      <div class="meta">6 天 5 夜・請假 4 天<br>西海岸比較乾</div>
+    </a>
+    <a class="ov kr" href="#korea">
+      <div class="num">第 4 趟</div><div class="name">🇰🇷 首爾＋近郊</div>
+      <div class="when">10 月底–11 月初</div>
+      <div class="meta">6 天 5 夜・請假 4 天<br>楓葉、銀杏季</div>
+    </a>
+  </div>
+</section>
+
+<!-- 泰國 -->
+<section id="thailand" class="trip-section th">
+  <div class="trip-head">
+    <div class="tag">第 1 趟・2 月春節</div>
+    <h2>🇹🇭 泰國：曼谷＋清邁</h2>
+    <div class="kv">
+      <div><b>天數</b>6 天 5 夜（曼谷 3 晚、清邁 2 晚）</div>
+      <div><b>交通</b>曼谷搭 BTS、MRT 或 Grab；清邁用 Grab 或包車</div>
+      <div><b>兩人預算</b>約 5.3–7.2 萬</div>
+    </div>
+  </div>
+  <div class="days">
+    <div class="day"><div class="d">D1</div><div class="slots">
+      <div class="slot"><div class="t">上午</div>桃園飛曼谷（約 3.5 小時）</div>
+      <div class="slot"><div class="t">下午</div>入住、Terminal 21 美食街</div>
+      <div class="slot"><div class="t">晚上</div>Jodd Fairs 夜市</div>
+    </div></div>
+    <div class="day"><div class="d">D2</div><div class="slots">
+      <div class="slot"><div class="t">上午</div>大皇宮、玉佛寺（8:30 開門就進場，要穿過膝褲子）</div>
+      <div class="slot"><div class="t">下午</div>臥佛寺泰式按摩、搭渡輪到鄭王廟</div>
+      <div class="slot"><div class="t">晚上</div>Icon Siam 或河畔晚餐</div>
+    </div></div>
+    <div class="day"><div class="d">D3</div><div class="slots">
+      <div class="slot"><div class="t">上午</div>美功鐵道市場＋安帕瓦或丹嫩莎朵水上市場（一日團）</div>
+      <div class="slot"><div class="t">下午</div>回曼谷休息</div>
+      <div class="slot"><div class="t">晚上</div>屋頂酒吧看夜景</div>
+    </div></div>
+    <div class="day"><div class="d">D4</div><div class="slots">
+      <div class="slot"><div class="t">上午</div>飛清邁（約 1 小時 10 分）</div>
+      <div class="slot"><div class="t">下午</div>古城的帕辛寺、柴迪隆寺</div>
+      <div class="slot"><div class="t">晚上</div>寧曼路一帶吃飯</div>
+    </div></div>
+    <div class="day"><div class="d">D5</div><div class="slots">
+      <div class="slot"><div class="t">上午</div>大象保育營半日（選不騎象的）</div>
+      <div class="slot"><div class="t">下午</div>素帖寺看城市景觀</div>
+      <div class="slot"><div class="t">晚上</div>週日夜市；不是週日就去週六夜市或長康路夜市</div>
+    </div></div>
+    <div class="day"><div class="d">D6</div><div class="slots">
+      <div class="slot"><div class="t">上午</div>市集或咖啡廳</div>
+      <div class="slot"><div class="t">下午</div>回國（看有沒有清邁直飛台灣，沒有就經曼谷轉機）</div>
+      <div class="slot"><div class="t">晚上</div>—</div>
+    </div></div>
+  </div>
+  <h3>住宿推薦</h3>
+  <div class="table-wrap"><table>
+    <tr><th>地點</th><th>區域</th><th>推薦飯店</th><th class="num">雙人房／晚</th></tr>
+    <tr><td>曼谷</td><td>Asok／Terminal 21</td><td>Grande Centre Point Terminal 21、Hotel Clover Asoke</td><td class="num">3,000–4,500</td></tr>
+    <tr><td>清邁</td><td>古城區</td><td>Tamarind Village（古城內、有庭園）</td><td class="num">3,000–4,500</td></tr>
+  </table></div>
+  <div class="note"><b>提醒</b><ul>
+    <li>春節連假是機票和住宿的高峰。如果能改到 1 月中或連假結束後一週出發，可以省很多。</li>
+    <li>清邁從 2 月底開始是燒墾季，空氣會變差，2 月上旬去比較好。</li>
+    <li>入境前要上網填 TDAC 數位入境卡。</li>
+  </ul></div>
+</section>
+
+<!-- 日本 -->
+<section id="japan" class="trip-section jp">
+  <div class="trip-head">
+    <div class="tag">第 2 趟・3 月底–4 月初</div>
+    <h2>🇯🇵 日本：京都＋大阪櫻花線</h2>
+    <div class="kv">
+      <div><b>天數</b>7 天 6 夜（京都 3 晚、大阪 3 晚）</div>
+      <div><b>交通</b>關西機場搭 HARUKA 到京都；市區用 ICOCA 卡</div>
+      <div><b>兩人預算</b>約 8.4–11.2 萬</div>
+    </div>
+  </div>
+  <div class="days">
+    <div class="day"><div class="d">D1</div><div class="slots">
+      <div class="slot"><div class="t">上午</div>桃園飛關西機場</div>
+      <div class="slot"><div class="t">下午</div>搭 HARUKA 到京都、入住</div>
+      <div class="slot"><div class="t">晚上</div>錦市場、先斗町</div>
+    </div></div>
+    <div class="day"><div class="d">D2</div><div class="slots">
+      <div class="slot"><div class="t">上午</div>清水寺（7 點前到，避開人潮）</div>
+      <div class="slot"><div class="t">下午</div>二年坂、三年坂、八坂神社、祇園白川</div>
+      <div class="slot"><div class="t">晚上</div>圓山公園夜櫻</div>
+    </div></div>
+    <div class="day"><div class="d">D3</div><div class="slots">
+      <div class="slot"><div class="t">上午</div>伏見稻荷（清晨去）</div>
+      <div class="slot"><div class="t">下午</div>哲學之道、銀閣寺、南禪寺</div>
+      <div class="slot"><div class="t">晚上</div>京都車站周邊</div>
+    </div></div>
+    <div class="day"><div class="d">D4</div><div class="slots">
+      <div class="slot"><div class="t">上午</div>嵐山竹林、渡月橋</div>
+      <div class="slot"><div class="t">下午</div>嵯峨野小火車或保津川遊船；移動到大阪</div>
+      <div class="slot"><div class="t">晚上</div>道頓堀、心齋橋</div>
+    </div></div>
+    <div class="day"><div class="d">D5</div><div class="slots">
+      <div class="slot"><div class="t">上午</div>奈良一日遊：奈良公園、東大寺</div>
+      <div class="slot"><div class="t">下午</div>春日大社</div>
+      <div class="slot"><div class="t">晚上</div>大阪的燒肉或串炸</div>
+    </div></div>
+    <div class="day"><div class="d">D6</div><div class="slots">
+      <div class="slot"><div class="t">上午</div>大阪城公園賞櫻</div>
+      <div class="slot"><div class="t">下午</div>黑門市場、梅田採買</div>
+      <div class="slot"><div class="t">晚上</div>梅田藍天大廈夜景</div>
+    </div></div>
+    <div class="day"><div class="d">D7</div><div class="slots">
+      <div class="slot"><div class="t">上午</div>補買東西</div>
+      <div class="slot"><div class="t">下午</div>從關西機場回國</div>
+      <div class="slot"><div class="t">晚上</div>—</div>
+    </div></div>
+  </div>
+  <h3>住宿推薦</h3>
+  <div class="table-wrap"><table>
+    <tr><th>地點</th><th>區域</th><th>推薦飯店</th><th class="num">雙人房／晚</th></tr>
+    <tr><td>京都</td><td>四條／京都車站</td><td>Mitsui Garden Hotel Kyoto Shijo、Daiwa Roynet 系列</td><td class="num">櫻花季 5,500–8,000</td></tr>
+    <tr><td>大阪</td><td>心齋橋／難波</td><td>Cross Hotel Osaka</td><td class="num">4,500–6,500</td></tr>
+  </table></div>
+  <div class="note"><b>提醒</b><ul>
+    <li>關西櫻花盛開通常在 3 月底到 4 月初，每年會差幾天。日本約 1 月起發布開花預測，可以參考後再定日期。</li>
+    <li>櫻花季的京都住宿很快就滿，<strong>最晚 12 月要訂好</strong>（選可免費取消的方案）。</li>
+    <li>這條路線都是短程交通，不用買 JR Pass。入境前填 Visit Japan Web。</li>
+  </ul></div>
+</section>
+
+<!-- 馬來西亞 -->
+<section id="malaysia" class="trip-section my">
+  <div class="trip-head">
+    <div class="tag">第 3 趟・7 月</div>
+    <h2>🇲🇾 馬來西亞：吉隆坡＋怡保＋檳城</h2>
+    <div class="kv">
+      <div><b>天數</b>6 天 5 夜（吉隆坡 2–3 晚、怡保 0–1 晚、檳城 2 晚）</div>
+      <div><b>交通</b>市區用 Grab 或捷運；城市之間搭 ETS 火車；吉隆坡進、檳城出</div>
+      <div><b>兩人預算</b>約 4.2–5.8 萬</div>
+    </div>
+  </div>
+  <div class="days">
+    <div class="day"><div class="d">D1</div><div class="slots">
+      <div class="slot"><div class="t">上午</div>桃園飛吉隆坡（約 4.5 小時）</div>
+      <div class="slot"><div class="t">下午</div>入住</div>
+      <div class="slot"><div class="t">晚上</div>亞羅街夜市</div>
+    </div></div>
+    <div class="day"><div class="d">D2</div><div class="slots">
+      <div class="slot"><div class="t">上午</div>黑風洞（早上比較涼）、太子城粉紅清真寺</div>
+      <div class="slot"><div class="t">下午</div>獨立廣場、茨廠街、蘇丹街</div>
+      <div class="slot"><div class="t">晚上</div>雙子星塔＋KLCC 公園水舞</div>
+    </div></div>
+    <div class="day"><div class="d">D3</div><div class="slots">
+      <div class="slot"><div class="t">上午</div>搭 ETS 到怡保（約 2.5 小時）</div>
+      <div class="slot"><div class="t">下午</div>舊街場、二奶巷、白咖啡、芽菜雞</div>
+      <div class="slot"><div class="t">晚上</div>住怡保，或直接往檳城</div>
+    </div></div>
+    <div class="day"><div class="d">D4</div><div class="slots">
+      <div class="slot"><div class="t">上午</div>前往檳城</div>
+      <div class="slot"><div class="t">下午</div>喬治市壁畫街、姓氏橋、張弼士藍屋</div>
+      <div class="slot"><div class="t">晚上</div>新關仔角或汕頭街小吃</div>
+    </div></div>
+    <div class="day"><div class="d">D5</div><div class="slots">
+      <div class="slot"><div class="t">上午</div>升旗山（早上搭纜車上去）</div>
+      <div class="slot"><div class="t">下午</div>極樂寺</div>
+      <div class="slot"><div class="t">晚上</div>叻沙、炒粿條</div>
+    </div></div>
+    <div class="day"><div class="d">D6</div><div class="slots">
+      <div class="slot"><div class="t">上午</div>早餐吃椰漿飯</div>
+      <div class="slot"><div class="t">下午</div>回國（檳城沒有直飛就經吉隆坡轉機）</div>
+      <div class="slot"><div class="t">晚上</div>—</div>
+    </div></div>
+  </div>
+  <h3>住宿推薦</h3>
+  <div class="table-wrap"><table>
+    <tr><th>地點</th><th>區域</th><th>推薦飯店</th><th class="num">雙人房／晚</th></tr>
+    <tr><td>吉隆坡</td><td>Bukit Bintang</td><td>Hotel Stripes Kuala Lumpur</td><td class="num">3,000–4,000</td></tr>
+    <tr><td>檳城</td><td>喬治市</td><td>Seven Terraces（老宅改建）、張弼士藍屋</td><td class="num">3,500–5,500</td></tr>
+  </table></div>
+  <div class="note"><b>提醒</b><ul>
+    <li>7 月午後常有雷陣雨，記得帶傘。</li>
+    <li>進清真寺要穿長袖長褲，女生要包頭巾（現場可以借）。</li>
+    <li>入境前要填 MDAC 數位入境卡。</li>
+  </ul></div>
+</section>
+
+<!-- 韓國 -->
+<section id="korea" class="trip-section kr">
+  <div class="trip-head">
+    <div class="tag">第 4 趟・10 月底–11 月初</div>
+    <h2>🇰🇷 韓國：首爾＋近郊</h2>
+    <div class="kv">
+      <div><b>天數</b>6 天 5 夜（首爾 5 晚）</div>
+      <div><b>交通</b>T-money 卡搭地鐵公車；機場搭 AREX 進市區</div>
+      <div><b>兩人預算</b>約 5.6–7.9 萬</div>
+    </div>
+  </div>
+  <div class="days">
+    <div class="day"><div class="d">D1</div><div class="slots">
+      <div class="slot"><div class="t">上午</div>桃園飛仁川（約 2.5 小時）</div>
+      <div class="slot"><div class="t">下午</div>入住</div>
+      <div class="slot"><div class="t">晚上</div>明洞街頭小吃</div>
+    </div></div>
+    <div class="day"><div class="d">D2</div><div class="slots">
+      <div class="slot"><div class="t">上午</div>景福宮（穿韓服免門票）</div>
+      <div class="slot"><div class="t">下午</div>北村韓屋村、三清洞、益善洞</div>
+      <div class="slot"><div class="t">晚上</div>廣藏市場：綠豆煎餅、生拌牛肉</div>
+    </div></div>
+    <div class="day"><div class="d">D3</div><div class="slots">
+      <div class="slot"><div class="t">上午</div>搭 ITX 到南怡島（楓葉、銀杏）</div>
+      <div class="slot"><div class="t">下午</div>小法國村或晨靜樹木園</div>
+      <div class="slot"><div class="t">晚上</div>回首爾吃烤肉</div>
+    </div></div>
+    <div class="day"><div class="d">D4</div><div class="slots">
+      <div class="slot"><div class="t">上午</div>聖水洞咖啡廳、首爾林（銀杏道）</div>
+      <div class="slot"><div class="t">下午</div>樂天世界塔或汝矣島漢江公園</div>
+      <div class="slot"><div class="t">晚上</div>弘大街頭表演</div>
+    </div></div>
+    <div class="day"><div class="d">D5</div><div class="slots">
+      <div class="slot"><div class="t">上午</div>德壽宮石牆路</div>
+      <div class="slot"><div class="t">下午</div>南山塔（楓葉步道）</div>
+      <div class="slot"><div class="t">晚上</div>東大門或新村逛街</div>
+    </div></div>
+    <div class="day"><div class="d">D6</div><div class="slots">
+      <div class="slot"><div class="t">上午</div>免稅店或超市採買</div>
+      <div class="slot"><div class="t">下午</div>回國</div>
+      <div class="slot"><div class="t">晚上</div>—</div>
+    </div></div>
+  </div>
+  <h3>住宿推薦</h3>
+  <div class="table-wrap"><table>
+    <tr><th>地點</th><th>區域</th><th>推薦飯店</th><th class="num">雙人房／晚</th></tr>
+    <tr><td>首爾</td><td>明洞</td><td>L7 Myeongdong、Lotte City Hotel Myeongdong</td><td class="num">3,500–5,500</td></tr>
+  </table></div>
+  <div class="note"><b>提醒</b><ul>
+    <li>首爾楓葉最美通常在 10 月底到 11 月上旬。雪嶽山 10 月中就紅了，想去建議住一晚。</li>
+    <li>出發前確認台灣旅客當時還需不需要申請 K-ETA。</li>
+  </ul></div>
+</section>
+
+<section id="budget">
+  <h2>兩人預算</h2>
+  <p class="lead">新台幣粗估，含機票、住宿、吃喝、交通和門票，不含購物。實際價格以訂位當下為準。</p>
+  <div class="table-wrap"><table>
+    <tr><th>趟次</th><th class="num">機票 ×2</th><th class="num">住宿</th><th class="num">吃喝、交通、門票</th><th class="num">小計</th></tr>
+    <tr><td class="flag">🇹🇭 泰國 6 天（春節）</td><td class="num">2.2–3 萬</td><td class="num">1.6–2.2 萬</td><td class="num">1.5–2 萬</td><td class="num"><b>5.3–7.2 萬</b></td></tr>
+    <tr><td class="flag">🇯🇵 日本 7 天（櫻花）</td><td class="num">2.6–3.6 萬</td><td class="num">3–4 萬</td><td class="num">2.8–3.6 萬</td><td class="num"><b>8.4–11.2 萬</b></td></tr>
+    <tr><td class="flag">🇲🇾 馬來西亞 6 天</td><td class="num">1.4–2 萬</td><td class="num">1.6–2.2 萬</td><td class="num">1.2–1.6 萬</td><td class="num"><b>4.2–5.8 萬</b></td></tr>
+    <tr><td class="flag">🇰🇷 韓國 6 天（楓葉）</td><td class="num">1.8–2.6 萬</td><td class="num">1.8–2.7 萬</td><td class="num">2–2.6 萬</td><td class="num"><b>5.6–7.9 萬</b></td></tr>
+    <tr class="total"><td>全年合計</td><td class="num"></td><td class="num"></td><td class="num"></td><td class="num">23.5–32 萬</td></tr>
+  </table></div>
+  <div class="note"><b>省錢小技巧</b><ul>
+    <li>機票：廉航特價或航空公司早鳥價，每人常常可以省 3,000–5,000 元。</li>
+    <li>刷卡：用一張海外消費回饋 3% 以上的卡，全年大約可以拿回 5,000–8,000 元。</li>
+    <li>住宿：改住三星商旅或公寓式住宿，大約可以省 25–35%。</li>
+  </ul></div>
+</section>
+
+<section id="booking">
+  <h2>訂位時程</h2>
+  <p class="lead">依出發時間排序，越早出發的越急。</p>
+  <ol class="timeline">
+    <li class="now"><div class="when">現在（2026/11）</div>🇹🇭 泰國機票、曼谷和清邁住宿、曼谷飛清邁的國內線、美功＋水上市場一日團</li>
+    <li><div class="when">2026/12</div>🇯🇵 日本機票、京都住宿（櫻花季）</li>
+    <li><div class="when">2027/1–2</div>留意日本櫻花開花預測，必要時調整日期</li>
+    <li><div class="when">2027/3–4</div>🇲🇾 馬來西亞機票（廉航特價常在這時候）、檳城住宿</li>
+    <li><div class="when">2027/6–7</div>🇰🇷 韓國機票和住宿</li>
+    <li><div class="when">每趟出發前 1 週</div>入境網站、eSIM、旅平險加不便險</li>
+  </ol>
+</section>
+
+<section id="checklist">
+  <h2>出發前檢查清單</h2>
+  <p class="lead">勾選狀態只存在這台裝置的瀏覽器。簽證和入境規定常常變動，出發前請再查各國官方網站。</p>
+  <div class="checklists">
+    <div class="card" data-list="common">
+      <h3>每趟都要做</h3>
+      <label><input type="checkbox"><span>護照效期在回國日後還有 6 個月以上</span></label>
+      <label><input type="checkbox"><span>旅平險加不便險</span></label>
+      <label><input type="checkbox"><span>eSIM 或漫遊</span></label>
+      <label><input type="checkbox"><span>海外回饋信用卡、少量當地現金</span></label>
+      <label><input type="checkbox"><span>機票、住宿確認信存到手機離線</span></label>
+      <label><input type="checkbox"><span>護照和住宿資料拍照備份</span></label>
+      <label><input type="checkbox"><span>萬用轉接頭、行動電源（放隨身行李）</span></label>
+      <div class="progress"></div>
+    </div>
+    <div class="card th" data-list="th">
+      <h3>🇹🇭 泰國</h3>
+      <label><input type="checkbox"><span>入境前填 TDAC 數位入境卡</span></label>
+      <label><input type="checkbox"><span>參觀寺廟要穿過膝褲子、有袖上衣</span></label>
+      <label><input type="checkbox"><span>訂曼谷飛清邁國內線</span></label>
+      <label><input type="checkbox"><span>訂一日團和大象保育營</span></label>
+      <div class="progress"></div>
+    </div>
+    <div class="card jp" data-list="jp">
+      <h3>🇯🇵 日本</h3>
+      <label><input type="checkbox"><span>入境前填 Visit Japan Web</span></label>
+      <label><input type="checkbox"><span>查好櫻花開花預測</span></label>
+      <label><input type="checkbox"><span>手機綁 ICOCA 卡（或到當地買實體卡）</span></label>
+      <label><input type="checkbox"><span>預訂 HARUKA 優惠票</span></label>
+      <div class="progress"></div>
+    </div>
+    <div class="card my" data-list="my">
+      <h3>🇲🇾 馬來西亞</h3>
+      <label><input type="checkbox"><span>入境前填 MDAC 數位入境卡</span></label>
+      <label><input type="checkbox"><span>訂 ETS 火車票（吉隆坡到怡保、怡保到檳城）</span></label>
+      <label><input type="checkbox"><span>雨具、防曬</span></label>
+      <label><input type="checkbox"><span>參觀清真寺要穿長袖長褲</span></label>
+      <div class="progress"></div>
+    </div>
+    <div class="card kr" data-list="kr">
+      <h3>🇰🇷 韓國</h3>
+      <label><input type="checkbox"><span>確認 K-ETA 是否需要申請</span></label>
+      <label><input type="checkbox"><span>T-money 卡</span></label>
+      <label><input type="checkbox"><span>訂 ITX 到南怡島的車票</span></label>
+      <label><input type="checkbox"><span>保暖外套（早晚溫差大）</span></label>
+      <div class="progress"></div>
+    </div>
+  </div>
+  <p style="margin-top:14px"><button class="btn" type="button" id="reset">清除所有勾選</button></p>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    價格、簽證與入境規定都是規劃當下（2026 年 11 月）的粗估，出發前請以航空公司、訂房網站與各國官方公告為準。
+  </div>
+</footer>
+
+<script>
+(function () {
+  var KEY = "trip2027-checklist";
+  var state = {};
+  try { state = JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) { state = {}; }
+
+  function save() {
+    try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
+  }
+
+  var cards = document.querySelectorAll(".card[data-list]");
+  function update(card) {
+    var boxes = card.querySelectorAll("input[type=checkbox]");
+    var done = 0;
+    boxes.forEach(function (b) { if (b.checked) done++; });
+    card.querySelector(".progress").textContent = "已完成 " + done + " / " + boxes.length;
+  }
+
+  cards.forEach(function (card) {
+    var list = card.getAttribute("data-list");
+    card.querySelectorAll("input[type=checkbox]").forEach(function (box, i) {
+      var id = list + "-" + i;
+      box.checked = !!state[id];
+      box.addEventListener("change", function () {
+        state[id] = box.checked;
+        save();
+        update(card);
+      });
+    });
+    update(card);
+  });
+
+  document.getElementById("reset").addEventListener("click", function () {
+    state = {};
+    save();
+    cards.forEach(function (card) {
+      card.querySelectorAll("input[type=checkbox]").forEach(function (b) { b.checked = false; });
+      update(card);
+    });
+  });
+})();
+</script>
+</body>
+</html>
