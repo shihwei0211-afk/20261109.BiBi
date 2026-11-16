@@ -3,7 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>2027 自由行手冊</title>
+<title>2027 四國自由行手冊</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Space+Grotesk:wght@500;700&display=swap">
 <meta name="description" content="2027 年馬來西亞、泰國、日本、韓國四趟自由行：每日行程、住宿、兩人預算、訂位時程與出發前檢查清單。">
 <style>
 :root {
@@ -29,6 +31,7 @@
     --th: #fb923c; --th-soft: #3a2518; --jp: #f472b6; --jp-soft: #3a1c2b;
     --my: #7aa2f7; --my-soft: #1c2640; --kr: #b197fc; --kr-soft: #2a2140;
     --warn: #fbbf24; --warn-soft: #3a2f14;
+    color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
@@ -37,15 +40,20 @@
   --th: #fb923c; --th-soft: #3a2518; --jp: #f472b6; --jp-soft: #3a1c2b;
   --my: #7aa2f7; --my-soft: #1c2640; --kr: #b197fc; --kr-soft: #2a2140;
   --warn: #fbbf24; --warn-soft: #3a2f14;
+  color-scheme: dark;
 }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 body {
   margin: 0; background: var(--bg); color: var(--text);
   font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif;
   line-height: 1.7; font-size: 16px;
 }
-.wrap { max-width: 1040px; margin: 0 auto; padding: 0 16px; }
+.wrap { max-width: 1040px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+h1, h2, .ov .name, .day .d, .timeline .when { font-family: "Space Grotesk", "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif; }
+h1, h2, h3 { text-wrap: balance; }
+a:focus-visible, .btn:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 header.hero { padding: 48px 0 28px; border-bottom: 1px solid var(--border); }
 .hero .eyebrow { color: var(--accent); font-weight: 700; letter-spacing: .08em; font-size: 14px; }
 .hero h1 { font-size: clamp(28px, 5vw, 44px); line-height: 1.25; margin: 6px 0 10px; }
@@ -127,7 +135,7 @@ tr.total td { font-weight: 800; background: var(--accent-soft); }
   background: var(--surface); border: 3px solid var(--accent);
 }
 .timeline li.now::before { background: var(--accent); }
-.timeline .when { font-weight: 800; color: var(--accent); }
+.timeline .when { font-weight: 700; color: var(--accent); }
 
 .checklists { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; }
 .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 18px; }
@@ -172,10 +180,10 @@ footer { margin-top: 40px; padding: 24px 0 48px; border-top: 1px solid var(--bor
     <h1>2027 四國自由行手冊</h1>
     <p>一年分四趟、配合台灣連假，在每個國家最適合的季節出發。這份手冊有每日行程、住宿、兩人預算、訂位時程，以及出發前檢查清單。</p>
     <div class="facts">
-      <span>👥 2 位成人</span>
-      <span>💰 中等預算</span>
-      <span>✈️ 從桃園出發</span>
-      <span>🗓️ 4 趟，共 25 天</span>
+      <span>2 位成人</span>
+      <span>中等預算</span>
+      <span>桃園出發</span>
+      <span>4 趟・共 25 天</span>
     </div>
   </div>
 </header>
@@ -486,45 +494,45 @@ footer { margin-top: 40px; padding: 24px 0 48px; border-top: 1px solid var(--bor
   <div class="checklists">
     <div class="card" data-list="common">
       <h3>每趟都要做</h3>
-      <label><input type="checkbox"><span>護照效期在回國日後還有 6 個月以上</span></label>
-      <label><input type="checkbox"><span>旅平險加不便險</span></label>
-      <label><input type="checkbox"><span>eSIM 或漫遊</span></label>
-      <label><input type="checkbox"><span>海外回饋信用卡、少量當地現金</span></label>
-      <label><input type="checkbox"><span>機票、住宿確認信存到手機離線</span></label>
-      <label><input type="checkbox"><span>護照和住宿資料拍照備份</span></label>
-      <label><input type="checkbox"><span>萬用轉接頭、行動電源（放隨身行李）</span></label>
+      <label><input type="checkbox" id="chk-1"><span>護照效期在回國日後還有 6 個月以上</span></label>
+      <label><input type="checkbox" id="chk-2"><span>旅平險加不便險</span></label>
+      <label><input type="checkbox" id="chk-3"><span>eSIM 或漫遊</span></label>
+      <label><input type="checkbox" id="chk-4"><span>海外回饋信用卡、少量當地現金</span></label>
+      <label><input type="checkbox" id="chk-5"><span>機票、住宿確認信存到手機離線</span></label>
+      <label><input type="checkbox" id="chk-6"><span>護照和住宿資料拍照備份</span></label>
+      <label><input type="checkbox" id="chk-7"><span>萬用轉接頭、行動電源（放隨身行李）</span></label>
       <div class="progress"></div>
     </div>
     <div class="card th" data-list="th">
       <h3>🇹🇭 泰國</h3>
-      <label><input type="checkbox"><span>入境前填 TDAC 數位入境卡</span></label>
-      <label><input type="checkbox"><span>參觀寺廟要穿過膝褲子、有袖上衣</span></label>
-      <label><input type="checkbox"><span>訂曼谷飛清邁國內線</span></label>
-      <label><input type="checkbox"><span>訂一日團和大象保育營</span></label>
+      <label><input type="checkbox" id="chk-8"><span>入境前填 TDAC 數位入境卡</span></label>
+      <label><input type="checkbox" id="chk-9"><span>參觀寺廟要穿過膝褲子、有袖上衣</span></label>
+      <label><input type="checkbox" id="chk-10"><span>訂曼谷飛清邁國內線</span></label>
+      <label><input type="checkbox" id="chk-11"><span>訂一日團和大象保育營</span></label>
       <div class="progress"></div>
     </div>
     <div class="card jp" data-list="jp">
       <h3>🇯🇵 日本</h3>
-      <label><input type="checkbox"><span>入境前填 Visit Japan Web</span></label>
-      <label><input type="checkbox"><span>查好櫻花開花預測</span></label>
-      <label><input type="checkbox"><span>手機綁 ICOCA 卡（或到當地買實體卡）</span></label>
-      <label><input type="checkbox"><span>預訂 HARUKA 優惠票</span></label>
+      <label><input type="checkbox" id="chk-12"><span>入境前填 Visit Japan Web</span></label>
+      <label><input type="checkbox" id="chk-13"><span>查好櫻花開花預測</span></label>
+      <label><input type="checkbox" id="chk-14"><span>手機綁 ICOCA 卡（或到當地買實體卡）</span></label>
+      <label><input type="checkbox" id="chk-15"><span>預訂 HARUKA 優惠票</span></label>
       <div class="progress"></div>
     </div>
     <div class="card my" data-list="my">
       <h3>🇲🇾 馬來西亞</h3>
-      <label><input type="checkbox"><span>入境前填 MDAC 數位入境卡</span></label>
-      <label><input type="checkbox"><span>訂 ETS 火車票（吉隆坡到怡保、怡保到檳城）</span></label>
-      <label><input type="checkbox"><span>雨具、防曬</span></label>
-      <label><input type="checkbox"><span>參觀清真寺要穿長袖長褲</span></label>
+      <label><input type="checkbox" id="chk-16"><span>入境前填 MDAC 數位入境卡</span></label>
+      <label><input type="checkbox" id="chk-17"><span>訂 ETS 火車票（吉隆坡到怡保、怡保到檳城）</span></label>
+      <label><input type="checkbox" id="chk-18"><span>雨具、防曬</span></label>
+      <label><input type="checkbox" id="chk-19"><span>參觀清真寺要穿長袖長褲</span></label>
       <div class="progress"></div>
     </div>
     <div class="card kr" data-list="kr">
       <h3>🇰🇷 韓國</h3>
-      <label><input type="checkbox"><span>確認 K-ETA 是否需要申請</span></label>
-      <label><input type="checkbox"><span>T-money 卡</span></label>
-      <label><input type="checkbox"><span>訂 ITX 到南怡島的車票</span></label>
-      <label><input type="checkbox"><span>保暖外套（早晚溫差大）</span></label>
+      <label><input type="checkbox" id="chk-20"><span>確認 K-ETA 是否需要申請</span></label>
+      <label><input type="checkbox" id="chk-21"><span>T-money 卡</span></label>
+      <label><input type="checkbox" id="chk-22"><span>訂 ITX 到南怡島的車票</span></label>
+      <label><input type="checkbox" id="chk-23"><span>保暖外套（早晚溫差大）</span></label>
       <div class="progress"></div>
     </div>
   </div>
