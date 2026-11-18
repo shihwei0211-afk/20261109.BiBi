@@ -51,6 +51,8 @@ GitHub 儲存庫 Settings → Pages，選擇 Deploy from a branch、`main`、`/ 
 
 [2027 四國自由行手冊（網頁）](trip-2027/index.html)：GitHub Pages 啟用後的網址為 <https://shihwei0211-afk.github.io/20261109.BiBi/trip-2027/>
 
+[Q彈求生：3D 喪屍射擊遊戲（單人版網頁）](q-zombie/index.html)：GitHub Pages 啟用後的網址為 <https://shihwei0211-afk.github.io/20261109.BiBi/q-zombie/>。與報修系統無關，獨立的單一 HTML 檔，three.js 與字型由 CDN 載入，進度存在瀏覽器。
+
 [報修登記系統提案（PowerPoint，6 頁）](文件/報修登記系統提案.pptx)
 
 ## PWA 安裝與離線使用
